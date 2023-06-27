@@ -5,37 +5,28 @@ import { Modal } from '../modal/Modal';
 import ImageGalleryItem from '../imagegalleryitem/ImageGalleryItem';
 
 export const ImageGallery = ({ cards }) => {
-  const [url, setUrl] = useState('');
-  const [openModal, setOpenModal] = useState(false);
+  const [url, setUrl] = useState(null);
+  // const [openModal, setOpenModal] = useState(false);
 
-  const addModalUrl = e => {
-    const modalUrl = cards.filter(card => {
-      return Number(card.id) === Number(e.currentTarget.id);
-    });
-    setUrl(modalUrl[0].largeImageURL);
-    setOpenModal(true);
-  };
+  const addModalUrl = url => setUrl(url);
 
-  const handleOpenModal = () => {
-    setOpenModal(false);
-  };
+  const handleCloseModal = () => setUrl(null);
 
   return (
     <>
       <Gallery>
-        {cards.map(({ id, webformatURL, tags }) => {
+        {cards.map(({ id, webformatURL, tags, largeImageURL }) => {
           return (
             <ImageGalleryItem
-              id={id}
               key={id}
-              onClick={addModalUrl}
+              onClick={() => addModalUrl(largeImageURL)}
               src={webformatURL}
               alt={tags}
             />
           );
         })}
       </Gallery>
-      {openModal && <Modal url={url} openModal={handleOpenModal} />}
+      {url && <Modal url={url} handleCloseModal={handleCloseModal} />}
     </>
   );
 };

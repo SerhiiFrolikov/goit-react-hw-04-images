@@ -5,11 +5,11 @@ import { createPortal } from 'react-dom';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export const Modal = ({ url, openModal }) => {
+export const Modal = ({ url, handleCloseModal }) => {
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.code === 'Escape') {
-        openModal();
+        handleCloseModal();
       }
     };
 
@@ -17,11 +17,11 @@ export const Modal = ({ url, openModal }) => {
     return () => {
       window.addEventListener('keydown', handleKeyDown);
     };
-  }, [openModal]);
+  }, [handleCloseModal]);
 
   const handleBackdropClick = event => {
     if (event.currentTarget === event.target) {
-      openModal();
+      handleCloseModal();
     }
   };
 
@@ -37,5 +37,5 @@ export const Modal = ({ url, openModal }) => {
 
 Modal.propTypes = {
   url: PropTypes.string.isRequired,
-  openModal: PropTypes.func.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
 };
